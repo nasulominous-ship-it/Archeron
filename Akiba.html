@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AkibaFest 2025 — Anime & Cosplay Festival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Noto+Sans+JP:wght@300;400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Akiba.css" />
+</head>
+<body>
+  <div id="globalBg" class="global-bg"></div>
+  <div class="global-bg-overlay" id="globalOverlay"></div>
+  <div id="particles"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="logo-kanji">祭</span>
+      <span class="logo-text">AkibaFest</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero"     class="nav-link active">Home</a></li>
+      <li><a href="#info"     class="nav-link">Info</a></li>
+      <li><a href="#guests"   class="nav-link">Guest Star</a></li>
+      <li><a href="#sponsors" class="nav-link">Sponsor</a></li>
+      <li><a href="#map"      class="nav-link">Venue</a></li>
+      <li><a href="#tickets"  class="nav-link">Tiket</a></li>
+    </ul>
+    <div class="nav-cta"><button class="btn-nav" onclick="scrollToTickets()">Beli Tiket</button></div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#hero"     onclick="closeMobile()">Home</a></li>
+      <li><a href="#info"     onclick="closeMobile()">Info</a></li>
+      <li><a href="#guests"   onclick="closeMobile()">Guest Star</a></li>
+      <li><a href="#sponsors" onclick="closeMobile()">Sponsor</a></li>
+      <li><a href="#map"      onclick="closeMobile()">Venue</a></li>
+      <li><a href="#tickets"  onclick="closeMobile()">Tiket</a></li>
+    </ul>
+  </div>
+
+  <!-- BG CHANGER WIDGET -->
+  <div class="bg-changer" id="bgChanger">
+    <button class="bg-toggle-btn" onclick="toggleBgPanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+      <span>Ganti BG</span>
+    </button>
+    <div class="bg-panel" id="bgPanel">
+      <div class="bg-panel-header">
+        <span>🎨 Background Anime</span>
+        <button class="bg-panel-close" onclick="toggleBgPanel()">✕</button>
+      </div>
+      <p class="bg-section-label">Preset Anime Scene</p>
+      <div class="bg-presets" id="bgPresets"></div>
+      <p class="bg-section-label">Upload Gambar Kamu</p>
+      <label class="bg-upload-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Pilih File Gambar
+        <input type="file" id="bgUpload" accept="image/*" onchange="uploadBg(event)" />
+      </label>
+      <p class="bg-section-label">Pengaturan</p>
+      <div class="bg-controls">
+        <div class="bg-ctrl-row"><label>Overlay</label><input type="range" min="0" max="90" value="55" id="overlayRange" oninput="changeOverlay(this.value)"/><span id="overlayVal">55%</span></div>
+        <div class="bg-ctrl-row"><label>Blur</label><input type="range" min="0" max="15" value="0" id="blurRange" oninput="changeBgBlur(this.value)"/><span id="blurVal">0px</span></div>
+        <div class="bg-ctrl-row"><label>Slideshow</label><button class="bg-ctrl-btn" onclick="toggleSlideshow()" id="slideshowBtn">⏸ Pause</button></div>
+        <div class="bg-ctrl-row"><label>Kecepatan</label><input type="range" min="2" max="15" value="5" id="speedRange" oninput="changeSpeed(this.value)"/><span id="speedVal">5s</span></div>
+      </div>
+      <div class="bg-dots" id="bgDots"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-sakura" id="sakura"></div>
+    <div class="hero-content">
+      <div class="hero-tag"><span class="tag-dot"></span> GRAND EVENT 2025</div>
+      <h1 class="hero-title">
+        <span class="title-jp">アキバフェスト</span>
+        <span class="title-en">AkibaFest</span>
+        <span class="title-sub">Anime & Cosplay Festival</span>
+      </h1>
+      <p class="hero-desc">Festival anime dan cosplay terbesar di Indonesia.<br/>Temukan dunia tanpa batas antara realita dan fiksi.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToTickets()"><span>Dapatkan Tiket</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        <button class="btn-secondary" onclick="document.getElementById('info').scrollIntoView({behavior:'smooth'})"><span>Pelajari Lebih</span></button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-target="200">0</span><span class="stat-label">Cosplayer</span></div>
+        <div class="stat-divider">|</div>
+        <div class="stat"><span class="stat-num" data-target="80">0</span><span class="stat-label">Booth</span></div>
+        <div class="stat-divider">|</div>
+        <div class="stat"><span class="stat-num" data-target="5000">0</span><span class="stat-label">Pengunjung</span></div>
+      </div>
+    </div>
+    <div class="countdown-wrap">
+      <p class="countdown-label">Event dimulai dalam</p>
+      <div class="countdown" id="countdown">
+        <div class="cd-box"><span id="cd-days">00</span><small>Hari</small></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-box"><span id="cd-hours">00</span><small>Jam</small></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-box"><span id="cd-mins">00</span><small>Menit</small></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-box"><span id="cd-secs">00</span><small>Detik</small></div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><div class="scroll-line"></div><span>Scroll</span></div>
+  </section>
+
+  <!-- INFO -->
+  <section id="info" class="info-section">
+    <div class="section-header">
+      <span class="section-tag">イベント情報</span>
+      <h2 class="section-title">Informasi <span class="accent">Event</span></h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h3>Tanggal</h3><p class="info-main">15 – 17 Agustus 2025</p><p class="info-sub">Jumat – Minggu</p></div>
+      <div class="info-card"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Waktu</h3><p class="info-main">09:00 – 21:00 WIB</p><p class="info-sub">Setiap hari selama event</p></div>
+      <div class="info-card"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><h3>Tempat</h3><p class="info-main">Jakarta Convention Center</p><p class="info-sub">Jl. Gatot Subroto, Jakarta</p></div>
+      <div class="info-card"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div><h3>Highlight</h3><p class="info-main">Cosplay Contest, Artist Alley</p><p class="info-sub">Guest Star Internasional</p></div>
+    </div>
+    <div class="schedule-wrap">
+      <h3 class="schedule-title">Jadwal Acara</h3>
+      <div class="schedule-tabs">
+        <button class="sched-tab active" data-day="1">Hari 1</button>
+        <button class="sched-tab" data-day="2">Hari 2</button>
+        <button class="sched-tab" data-day="3">Hari 3</button>
+      </div>
+      <div class="schedule-list" id="scheduleList"></div>
+    </div>
+  </section>
+
+  <!-- GUEST STARS -->
+  <section id="guests" class="guests-section">
+    <div class="section-header">
+      <span class="section-tag">ゲストスター</span>
+      <h2 class="section-title">Guest <span class="accent">Stars</span></h2>
+      <p class="section-desc">Temui para gamer dan cosplayer legendaris yang hadir di AkibaFest 2025</p>
+    </div>
+    <div class="guest-filters">
+      <button class="guest-filter active" data-filter="all">Semua</button>
+      <button class="guest-filter" data-filter="gamer">🎮 Gamer</button>
+      <button class="guest-filter" data-filter="cosplayer">👘 Cosplayer</button>
+      <button class="guest-filter" data-filter="streamer">📡 Streamer</button>
+    </div>
+    <div class="guest-grid" id="guestGrid"></div>
+  </section>
+
+  <!-- SPONSORS -->
+  <section id="sponsors" class="sponsors-section">
+    <div class="section-header">
+      <span class="section-tag">スポンサー</span>
+      <h2 class="section-title">Sponsor & <span class="accent">Partner</span></h2>
+      <p class="section-desc">Didukung oleh brand-brand terkemuka di industri game dan anime</p>
+    </div>
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label"><span class="tier-icon">💎</span><span>Platinum Sponsor</span></div>
+      <div class="sponsor-row" id="sponsors-platinum"></div>
+    </div>
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label"><span class="tier-icon">🥇</span><span>Gold Sponsor</span></div>
+      <div class="sponsor-row" id="sponsors-gold"></div>
+    </div>
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label"><span class="tier-icon">🥈</span><span>Silver Sponsor</span></div>
+      <div class="sponsor-row" id="sponsors-silver"></div>
+    </div>
+    <div class="sponsor-cta">
+      <p>Ingin menjadi sponsor AkibaFest 2025?</p>
+      <a href="mailto:sponsor@akibafest.id" class="btn-sponsor-cta">Hubungi Kami</a>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map" class="map-section">
+    <div class="section-header">
+      <span class="section-tag">会場案内</span>
+      <h2 class="section-title">Lokasi <span class="accent">Venue</span></h2>
+    </div>
+    <div class="map-container">
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4077825898997!2d106.80235187499159!3d-6.209218493783097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e39d81d5e5%3A0xf7b0e88c9f1e21c9!2sJakarta%20Convention%20Center!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-overlay-badge"><span class="badge-kanji">会場</span><span>Jakarta Convention Center</span></div>
+      </div>
+      <div class="venue-info">
+        <div class="venue-card">
+          <h3>Jakarta Convention Center</h3>
+          <p class="venue-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Jl. Gatot Subroto, Gelora, Jakarta Pusat 10270</p>
+          <div class="transport-list">
+            <h4>Akses Transportasi</h4>
+            <div class="transport-item"><span class="transport-icon">🚇</span><div><strong>MRT / LRT</strong><p>Stasiun Senayan (500m)</p></div></div>
+            <div class="transport-item"><span class="transport-icon">🚌</span><div><strong>TransJakarta</strong><p>Halte Gelora Bung Karno</p></div></div>
+            <div class="transport-item"><span class="transport-icon">🅿️</span><div><strong>Parkir</strong><p>Basement & outdoor (berbayar)</p></div></div>
+          </div>
+          <a href="https://maps.google.com/?q=Jakarta+Convention+Center" target="_blank" class="btn-map">Buka di Google Maps<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+        </div>
+        <div class="floorplan">
+          <h4>Denah Area Event</h4>
+          <div class="floor-grid">
+            <div class="floor-cell main-stage">Main Stage</div>
+            <div class="floor-cell artist">Artist Alley</div>
+            <div class="floor-cell booth">Booth Area A</div>
+            <div class="floor-cell food">Food Court</div>
+            <div class="floor-cell booth2">Booth Area B</div>
+            <div class="floor-cell cosplay">Cosplay Zone</div>
+            <div class="floor-cell merch">Merch Hall</div>
+            <div class="floor-cell photo">Photo Spot</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKETS -->
+  <section id="tickets" class="tickets-section">
+    <div class="section-header">
+      <span class="section-tag">チケット</span>
+      <h2 class="section-title">Pesan <span class="accent">Tiket</span></h2>
+    </div>
+    <div class="ticket-tabs">
+      <button class="ticket-tab active" data-type="visitor" onclick="switchTab('visitor')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Pengunjung</button>
+      <button class="ticket-tab" data-type="seller" onclick="switchTab('seller')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Penjual / Booth</button>
+    </div>
+    <div class="ticket-panel" id="panel-visitor">
+      <div class="ticket-cards">
+        <div class="ticket-card"><div class="ticket-badge">POPULER</div><div class="ticket-header"><span class="tier-jp">一般</span><h3>Regular Pass</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">150.000</span><span class="price-per">/ hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Akses area umum</li><li><span class="feat-check">✓</span> Nonton Main Stage</li><li><span class="feat-check">✓</span> Akses Booth & Merch</li><li><span class="feat-x">✗</span> Meet & Greet Guest</li><li><span class="feat-x">✗</span> VIP Lounge</li></ul><button class="btn-ticket" onclick="openForm('visitor','regular')">Pilih Tiket</button></div>
+        <div class="ticket-card featured"><div class="ticket-glow"></div><div class="ticket-badge vip-badge">VIP</div><div class="ticket-header"><span class="tier-jp">特別</span><h3>VIP Pass</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">350.000</span><span class="price-per">/ hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Semua akses Regular</li><li><span class="feat-check">✓</span> Akses VIP Lounge</li><li><span class="feat-check">✓</span> Kursi prioritas</li><li><span class="feat-check">✓</span> Meet & Greet Guest Star</li><li><span class="feat-check">✓</span> Goodie Bag Eksklusif</li></ul><button class="btn-ticket btn-ticket-vip" onclick="openForm('visitor','vip')">Pilih VIP</button></div>
+        <div class="ticket-card"><div class="ticket-header"><span class="tier-jp">3日間</span><h3>3-Day Pass</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">400.000</span><span class="price-per">/ 3 hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Akses 3 hari penuh</li><li><span class="feat-check">✓</span> Semua akses Regular</li><li><span class="feat-check">✓</span> Hemat Rp 50.000</li><li><span class="feat-check">✓</span> Lanyard eksklusif</li><li><span class="feat-x">✗</span> Meet & Greet Guest</li></ul><button class="btn-ticket" onclick="openForm('visitor','3day')">Pilih 3-Day</button></div>
+      </div>
+    </div>
+    <div class="ticket-panel hidden" id="panel-seller">
+      <div class="ticket-cards">
+        <div class="ticket-card"><div class="ticket-header"><span class="tier-jp">小</span><h3>Mini Booth</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">1.500.000</span><span class="price-per">/ 3 hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Area 2×2 meter</li><li><span class="feat-check">✓</span> 1 meja + 2 kursi</li><li><span class="feat-check">✓</span> Listrik 450 Watt</li><li><span class="feat-check">✓</span> 2 tiket masuk panitia</li><li><span class="feat-x">✗</span> Backdrop & signage</li></ul><button class="btn-ticket" onclick="openForm('seller','mini')">Daftar Booth</button></div>
+        <div class="ticket-card featured"><div class="ticket-glow"></div><div class="ticket-badge">TERSISA 5</div><div class="ticket-header"><span class="tier-jp">標準</span><h3>Standard Booth</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">3.000.000</span><span class="price-per">/ 3 hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Area 3×3 meter</li><li><span class="feat-check">✓</span> 2 meja + 4 kursi</li><li><span class="feat-check">✓</span> Listrik 900 Watt</li><li><span class="feat-check">✓</span> 4 tiket masuk panitia</li><li><span class="feat-check">✓</span> Backdrop & signage</li></ul><button class="btn-ticket btn-ticket-vip" onclick="openForm('seller','standard')">Daftar Booth</button></div>
+        <div class="ticket-card"><div class="ticket-header"><span class="tier-jp">特大</span><h3>Premium Booth</h3></div><div class="ticket-price"><span class="price-currency">Rp</span><span class="price-amount">6.000.000</span><span class="price-per">/ 3 hari</span></div><ul class="ticket-features"><li><span class="feat-check">✓</span> Area 4×4 meter (corner)</li><li><span class="feat-check">✓</span> Meja & kursi lengkap</li><li><span class="feat-check">✓</span> Listrik 2200 Watt</li><li><span class="feat-check">✓</span> 6 tiket masuk panitia</li><li><span class="feat-check">✓</span> Listing website & katalog</li></ul><button class="btn-ticket" onclick="openForm('seller','premium')">Daftar Booth</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <button class="modal-close" onclick="closeModalBtn()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="modal-header"><span class="modal-kanji" id="modalKanji">申</span><div><h3 id="modalTitle">Form Pemesanan</h3><p id="modalSubtitle">Isi data dengan benar</p></div></div>
+      <form class="booking-form" id="bookingForm" onsubmit="submitForm(event)">
+        <div class="form-group"><label>Nama Lengkap <span class="req">*</span></label><input type="text" id="fName" placeholder="Masukkan nama lengkap" required /></div>
+        <div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="fEmail" placeholder="email@contoh.com" required /></div>
+        <div class="form-group"><label>No. WhatsApp <span class="req">*</span></label><input type="tel" id="fPhone" placeholder="08xxxxxxxxxx" required /></div>
+        <div class="form-group visitor-only" id="visitDay"><label>Pilih Hari</label><div class="day-selector"><label class="day-opt"><input type="checkbox" value="1" name="day" /> Jumat 15 Agt</label><label class="day-opt"><input type="checkbox" value="2" name="day" /> Sabtu 16 Agt</label><label class="day-opt"><input type="checkbox" value="3" name="day" /> Minggu 17 Agt</label></div></div>
+        <div class="form-group visitor-only" id="visitQty"><label>Jumlah Tiket</label><div class="qty-control"><button type="button" onclick="changeQty(-1)">−</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
+        <div class="form-group seller-only hidden" id="sellerBrand"><label>Nama Brand / Toko <span class="req">*</span></label><input type="text" id="fBrand" placeholder="Nama brand kamu" /></div>
+        <div class="form-group seller-only hidden" id="sellerCat"><label>Kategori Produk</label><select id="fCategory"><option value="">Pilih kategori</option><option>Merchandise & Aksesoris</option><option>Artwork & Ilustrasi</option><option>Cosplay & Kostum</option><option>Doujinshi & Komik</option><option>Makanan & Minuman</option><option>Games & Collectibles</option><option>Lainnya</option></select></div>
+        <div class="form-group seller-only hidden" id="sellerDesc"><label>Deskripsi Singkat</label><textarea id="fDesc" placeholder="Ceritakan tentang produk / brandmu..."></textarea></div>
+        <div class="form-summary"><div class="summary-row"><span>Paket</span><span id="summaryPaket">—</span></div><div class="summary-row"><span>Total</span><span id="summaryTotal" class="summary-total">—</span></div></div>
+        <div class="form-group"><label>Metode Pembayaran</label><div class="payment-opts"><label class="pay-opt"><input type="radio" name="pay" value="transfer" checked /> Transfer Bank</label><label class="pay-opt"><input type="radio" name="pay" value="qris" /> QRIS</label><label class="pay-opt"><input type="radio" name="pay" value="ewallet" /> E-Wallet</label></div></div>
+        <button type="submit" class="btn-submit"><span>Konfirmasi Pemesanan</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span class="toast-icon">✓</span><div><strong>Pemesanan Berhasil!</strong><p>Cek email kamu untuk detail konfirmasi.</p></div></div>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo"><span class="logo-kanji">祭</span><span class="logo-text">AkibaFest 2025</span></div>
+        <p>Festival anime & cosplay terbesar di Indonesia.<br/>Bersama kita rayakan dunia anime.</p>
+      </div>
+      <div class="footer-links"><h4>Navigasi</h4><ul><li><a href="#hero">Beranda</a></li><li><a href="#info">Informasi</a></li><li><a href="#guests">Guest Star</a></li><li><a href="#sponsors">Sponsor</a></li><li><a href="#map">Venue</a></li><li><a href="#tickets">Tiket</a></li></ul></div>
+      <div class="footer-contact"><h4>Kontak</h4><p>📧 info@akibafest.id</p><p>📱 +62 812-3456-7890</p><div class="social-links"><a href="#" class="social-btn">IG</a><a href="#" class="social-btn">TW</a><a href="#" class="social-btn">TT</a><a href="#" class="social-btn">YT</a></div></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 AkibaFest. All rights reserved. 全権利所有。</p></div>
+  </footer>
+
+  <script src="Akiba.js"></script>
+</body>
+</html>
